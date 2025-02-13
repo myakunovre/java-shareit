@@ -19,10 +19,3 @@ public class Booking {
     private User booker; // пользователь, который осуществляет бронирование
     private BookingStatus status; // статус бронирования
 }
-
-enum BookingStatus {
-    WAITING,
-    APPROVED,
-    REJECTED,
-    CANCELED;
-}
