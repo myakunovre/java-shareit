@@ -7,9 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
-/**
- * TODO Sprint add-item-requests.
- */
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(path = "/requests")
@@ -43,5 +41,4 @@ public class ItemRequestController {
     public void deleteRequestById(@PathVariable long id) {
         requestService.deleteById(id);
     }
-
 }
