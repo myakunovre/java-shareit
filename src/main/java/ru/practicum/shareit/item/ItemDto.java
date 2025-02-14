@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ItemDto {
     private Long id;
-    private String name; // краткое название
-    private String description; // развёрнутое описание
-    private boolean available; // доступность для аренды
-//    private Long requestId; // идентификатор запроса, если есть
+    private String name;
+    private String description;
+    private boolean available;
+    private Long requestId;
 }
