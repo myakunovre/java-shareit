@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ItemOwnerDto {
-    private Long id ;
+    private Long id;
     private String name;
     private String description;
     private boolean available;
