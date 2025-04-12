@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserDto {
-    private String name; // имя или логин пользователя
+    private Long id;
+    private String name;
     @NotNull
     @Email(message = "Некорректный формат email")
     private String email; // адрес электронной почты

@@ -11,12 +11,19 @@ import java.util.List;
 @RequestMapping("/items")
 public class ItemController {
 
-    private final ItemService itemService;
+    private final ItemServiceImpl itemService;
 
     @PostMapping
     public ItemDto addItem(@RequestHeader("X-Sharer-User-Id") Long userId,
                            @Valid @RequestBody Item item) {
         return itemService.addNewItem(userId, item);
+    }
+
+    @PostMapping("/{itemId}/comment")
+    public CommentDto addItemComment(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                     @Valid @RequestBody CommentDto commentDto,
+                                     @PathVariable long itemId) {
+        return itemService.addNewItemComment(userId, itemId, commentDto);
     }
 
     @PatchMapping("/{itemId}")
@@ -27,13 +34,14 @@ public class ItemController {
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto getItem(
-            @PathVariable long itemId) {
-        return itemService.getItem(itemId).orElse(null);
+    public ItemOwnerDto getItem(
+            @PathVariable long itemId,
+            @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return itemService.getItem(itemId, userId).orElse(null);
     }
 
     @GetMapping
-    public List<ItemDto> getAllItems(
+    public List<ItemOwnerDto> getAllItems(
             @RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemService.getItems(userId);
     }

@@ -1,0 +1,17 @@
+package ru.practicum.shareit.booking;
+
+import java.util.List;
+import java.util.Optional;
+
+interface BookingService {
+    BookingDtoOutput addNewBooking(long userId, BookingDto bookingDto);
+
+    BookingDtoOutput updateBooking(long userId, long bookingId, /*Booking booking, */Boolean approved);
+
+    Optional<BookingDtoOutput> getBooking(Long userId, long bookingId);
+
+    List<BookingDtoOutput> getUserBookings(long userId, BookingState state);
+
+    List<BookingDtoOutput> getItemBookings(long userId, BookingState state);
+}
+
