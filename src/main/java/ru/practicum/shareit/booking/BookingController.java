@@ -3,7 +3,6 @@ package ru.practicum.shareit.booking;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import ru.practicum.shareit.exceptions.NotFoundException;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
 @RequestMapping(path = "/bookings")
 public class BookingController {
 
-    private final BookingServiceImpl bookingService;
+    private final BookingService bookingService;
 
     @PostMapping
     public BookingDtoOutput addBooking(@RequestHeader("X-Sharer-User-Id") long userId,
@@ -24,16 +23,15 @@ public class BookingController {
     @PatchMapping("/{bookingId}")
     public BookingDtoOutput updateBooking(@RequestHeader("X-Sharer-User-Id") long userId,
                                           @PathVariable long bookingId,
-                                          @RequestParam(value = "approved") Boolean approved) {
-        return bookingService.updateBooking(userId, bookingId, /*booking,*/ approved);
+                                          @RequestParam Boolean approved) {
+        return bookingService.updateBooking(userId, bookingId, approved);
     }
 
     @GetMapping("/{bookingId}")
     public BookingDtoOutput getBooking(
             @RequestHeader("X-Sharer-User-Id") long userId,
             @PathVariable long bookingId) {
-        return bookingService.getBooking(userId, bookingId)
-                .orElseThrow(() -> new NotFoundException("Booking not found"));
+        return bookingService.getBooking(userId, bookingId);
     }
 
     @GetMapping

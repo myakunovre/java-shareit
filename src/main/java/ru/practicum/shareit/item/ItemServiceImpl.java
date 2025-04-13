@@ -14,7 +14,10 @@ import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 
 @Slf4j
@@ -33,33 +36,33 @@ class ItemServiceImpl implements ItemService {
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         item.setOwner(user);
-        Item item1 = itemRepository.save(item);
-        return ItemMapper.toItemDto(item1);
+        Item savedItem = itemRepository.save(item);
+        return ItemMapper.toItemDto(savedItem);
     }
 
     @Override
-    public ItemDto updateItem(Long userId, Long itemId, Item item) {
-        Item item1 = itemRepository.findById(itemId)
-                .orElseThrow(() -> new RuntimeException("Item not found"));
-        if (userId.equals(item1.getOwner().getId())) {
+    public ItemDto updateItem(Long userId, Long itemId, ItemDto itemDto) {
+        Item item = itemRepository.findById(itemId)
+                .orElseThrow(() -> new NotFoundException("Item not found"));
+        if (userId.equals(item.getOwner().getId())) {
 
-            if (item.getName() != null) {
-                item1.setName(item.getName());
+            if (itemDto.getName() != null) {
+                item.setName(itemDto.getName());
             }
-            if (item.getDescription() != null) {
-                item1.setDescription(item.getDescription());
+            if (itemDto.getDescription() != null) {
+                item.setDescription(itemDto.getDescription());
             }
-            if (item.getAvailable() != null) {
-                item1.setAvailable(item.getAvailable());
+            if (itemDto.getAvailable() != null) {
+                item.setAvailable(itemDto.getAvailable());
             }
 
-            Item item2 = itemRepository.save(item1);
-            return ItemMapper.toItemDto(item2);
+            Item savedItem = itemRepository.save(item);
+            return ItemMapper.toItemDto(savedItem);
         }
         throw new NotFoundException("User id = " + userId + " is not owner of item id = " + itemId);
     }
 
-    public Optional<ItemOwnerDto> getItem(Long itemId, Long userId) {
+    public ItemOwnerDto getItem(Long itemId, Long userId) {
         Item item = itemRepository.findById(itemId)
                 .orElseThrow(() -> new NotFoundException("Item not found"));
         userRepository.findById(userId)
@@ -101,8 +104,7 @@ class ItemServiceImpl implements ItemService {
                 .map(CommentMapper::toCommentDto)
                 .toList();
 
-        ItemOwnerDto itemOwnerDto = ItemMapper.toItemOwnerDto(item, lastDate, nextDate, commentDtos);
-        return Optional.of(itemOwnerDto);
+        return ItemMapper.toItemOwnerDto(item, lastDate, nextDate, commentDtos);
     }
 
     @Override
@@ -182,9 +184,9 @@ class ItemServiceImpl implements ItemService {
         if (bookerIds.contains(userId)) {
             Comment comment = CommentMapper.toComment(commentDto, item, user);
 
-            Comment comment1 = commentRepository.save(comment);
+            Comment savedComment = commentRepository.save(comment);
 
-            return CommentMapper.toCommentDto(comment1);
+            return CommentMapper.toCommentDto(savedComment);
         }
 
         throw new BadRequestException("User id = " + userId + "was not the booker of the item id = " + itemId);
