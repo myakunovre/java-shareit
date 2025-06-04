@@ -19,21 +19,29 @@ public class ItemController {
         return itemService.addNewItem(userId, item);
     }
 
+    @PostMapping("/{itemId}/comment")
+    public CommentDto addItemComment(@RequestHeader("X-Sharer-User-Id") Long userId,
+                                     @Valid @RequestBody CommentDto commentDto,
+                                     @PathVariable long itemId) {
+        return itemService.addNewItemComment(userId, itemId, commentDto);
+    }
+
     @PatchMapping("/{itemId}")
     public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") Long userId,
-                              @RequestBody Item item,
+                              @RequestBody ItemDto itemDto,
                               @PathVariable long itemId) {
-        return itemService.updateItem(userId, itemId, item);
+        return itemService.updateItem(userId, itemId, itemDto);
     }
 
     @GetMapping("/{itemId}")
-    public ItemDto getItem(
-            @PathVariable long itemId) {
-        return itemService.getItem(itemId).orElse(null);
+    public ItemOwnerDto getItem(
+            @PathVariable long itemId,
+            @RequestHeader("X-Sharer-User-Id") Long userId) {
+        return itemService.getItem(itemId, userId);
     }
 
     @GetMapping
-    public List<ItemDto> getAllItems(
+    public List<ItemOwnerDto> getAllItems(
             @RequestHeader("X-Sharer-User-Id") Long userId) {
         return itemService.getItems(userId);
     }

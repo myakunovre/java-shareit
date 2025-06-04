@@ -1,43 +1,20 @@
 package ru.practicum.shareit.item;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
-import java.util.stream.Collectors;
 
-@Repository
-public class ItemRepository {
-    private final Map<Long, Item> items = new HashMap<>();
-    private final AtomicLong counter = new AtomicLong();
+public interface ItemRepository extends JpaRepository<Item, Long> {
 
-    public Item save(Item item) {
-        if (item.getId() == null) {
-            item.setId(counter.incrementAndGet());
-        }
-        items.put(item.getId(), item);
-        return item;
-    }
+    // Аннотированный @Query метод (JPQL)
+    @Query("""
+            SELECT i FROM Item i WHERE
+            (UPPER(i.name) LIKE UPPER(CONCAT('%', ?1, '%')) OR
+            UPPER(i.description) LIKE UPPER(CONCAT('%', ?1, '%'))) AND
+            i.available = true""")
+    List<Item> getSearch(String text);
 
-    public Optional<Item> findById(Long id) {
-        return Optional.ofNullable(items.get(id));
-    }
-
-    public List<Item> findByUserId(long userId) {
-        return items.values().stream()
-                .filter(item -> item.getOwner().getId().equals(userId))
-                .toList();
-    }
-
-    public List<Item> getSearch(String text) {
-
-        return items.values().stream()
-                .filter(Item::getAvailable)
-                .filter(item -> item.getName().toLowerCase().contains(text.toLowerCase())
-                        || item.getDescription().toLowerCase().contains(text.toLowerCase()))
-                .collect(Collectors.toList());
-    }
+    // Запросный метод (Query Method)
+    List<Item> findByOwnerId(long userId);
 }
