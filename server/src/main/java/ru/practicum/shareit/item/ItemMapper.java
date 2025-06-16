@@ -40,7 +40,7 @@ public class ItemMapper {
         return itemOwnerDto;
     }
 
-    public static Item toItem(ItemDto itemDto, User owner/*, ItemRequest request*/) {
+    public static Item toItem(ItemDto itemDto, User owner) {
         Item item = new Item();
         item.setName(itemDto.getName());
         item.setDescription(itemDto.getDescription());

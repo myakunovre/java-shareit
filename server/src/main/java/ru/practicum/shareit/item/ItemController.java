@@ -15,43 +15,41 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
+    private final String X_SHARER_USER_ID_HEADER = "X-Sharer-User-Id";
 
     @PostMapping
-    public ItemDto addItem(@RequestHeader("X-Sharer-User-Id") Long userId,
+    public ItemDto addItem(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId,
                            @RequestBody ItemDto itemDto) {
         return itemService.addNewItem(userId, itemDto);
     }
 
     @PostMapping("/{itemId}/comment")
-    public CommentDto addItemComment(@RequestHeader("X-Sharer-User-Id") Long userId,
+    public CommentDto addItemComment(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId,
                                      @RequestBody CommentInputDto commentInputDto,
                                      @PathVariable long itemId) {
         return itemService.addNewItemComment(userId, itemId, commentInputDto);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto updateItem(@RequestHeader("X-Sharer-User-Id") Long userId,
+    public ItemDto updateItem(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId,
                               @RequestBody ItemDto itemDto,
                               @PathVariable long itemId) {
         return itemService.updateItem(userId, itemId, itemDto);
     }
 
     @GetMapping("/{itemId}")
-    public ItemOwnerDto getItem(
-            @PathVariable long itemId,
-            @RequestHeader("X-Sharer-User-Id") Long userId) {
+    public ItemOwnerDto getItem(@PathVariable long itemId,
+                                @RequestHeader(X_SHARER_USER_ID_HEADER) Long userId) {
         return itemService.getItem(itemId, userId);
     }
 
     @GetMapping
-    public List<ItemOwnerDto> getAllItems(
-            @RequestHeader("X-Sharer-User-Id") Long userId) {
+    public List<ItemOwnerDto> getAllItems(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId) {
         return itemService.getAllItems(userId);
     }
 
     @GetMapping("/search")
-    public List<ItemDto> getSearch(
-            @RequestParam String text) {
+    public List<ItemDto> getSearch(@RequestParam String text) {
         return itemService.getSearch(text);
     }
 }

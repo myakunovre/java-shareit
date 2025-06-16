@@ -2,26 +2,25 @@ package ru.practicum.shareit.request;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 
 public interface ItemRequestRepository extends JpaRepository<ItemRequest, Long> {
 
-    //     Аннотированный @Query метод (JPQL)
     @Query("""
             SELECT ir
             FROM ItemRequest ir
-            WHERE ir.requestor.id = ?1
+            WHERE ir.requestor.id = :userId
             ORDER BY ir.created DESC
             """)
-    List<ItemRequest> getUserItemRequests(long userId);
+    List<ItemRequest> getUserItemRequests(@Param("userId") long userId);
 
     @Query("""
             SELECT ir
             FROM ItemRequest ir
-            WHERE ir.requestor.id != ?1
+            WHERE ir.requestor.id != :userId
             ORDER BY ir.created DESC
             """)
-    List<ItemRequest> getAllItemRequests(long userId);
+    List<ItemRequest> getAllItemRequests(@Param("userId") long userId);
 }
-

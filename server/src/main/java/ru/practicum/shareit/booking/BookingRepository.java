@@ -2,114 +2,120 @@ package ru.practicum.shareit.booking;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
-    //     Аннотированный @Query метод (JPQL)
     @Query("""
             SELECT b
             FROM Booking b
-            WHERE b.booker.id = ?1
+            WHERE b.booker.id = :userId
             ORDER BY b.start DESC
             """)
-    List<Booking> getAllUserBookings(long userId);
+    List<Booking> getAllUserBookings(@Param("userId") Long userId);
 
 
     @Query("""
             SELECT b
             FROM Booking b
-            WHERE b.booker.id = ?1
+            WHERE b.booker.id = :userId
             AND b.status = 'APPROVED'
-            AND ?2 >= b.start AND ?2 <= b.end
+            AND :localDateTime >= b.start AND :localDateTime <= b.end
             ORDER BY b.start DESC""")
-    List<Booking> getCurrentUserBookings(long userId, LocalDateTime localDateTime);
+    List<Booking> getCurrentUserBookings(@Param("userId") long userId,
+                                         @Param("localDateTime") LocalDateTime localDateTime);
 
     @Query("""
             SELECT b
             FROM Booking b
-            WHERE b.booker.id = ?1
+            WHERE b.booker.id = :userId
             AND b.status = 'APPROVED'
-            AND ?2 < b.start
+            AND :localDateTime < b.start
             ORDER BY b.start DESC""")
-    List<Booking> getFutureUserBookings(long userId, LocalDateTime localDateTime);
+    List<Booking> getFutureUserBookings(@Param("userId") long userId,
+                                        @Param("localDateTime") LocalDateTime localDateTime);
 
     @Query("""
             SELECT b
             FROM Booking b
-            WHERE b.booker.id = ?1
+            WHERE b.booker.id = :userId
             AND b.status = 'APPROVED'
-            AND ?2 > b.end
+            AND :localDateTime > b.end
             ORDER BY b.start DESC""")
-    List<Booking> getPastUserBookings(long userId, LocalDateTime localDateTime);
+    List<Booking> getPastUserBookings(@Param("userId") long userId,
+                                      @Param("localDateTime") LocalDateTime localDateTime);
 
     @Query("""
             SELECT b
             FROM Booking b
-            WHERE b.booker.id = ?1
+            WHERE b.booker.id = :userId
             AND b.status = 'WAITING'
             ORDER BY b.start DESC""")
-    List<Booking> getWaitingUserBookings(long userId);
+    List<Booking> getWaitingUserBookings(@Param("userId") long userId);
 
     @Query("""
             SELECT b
             FROM Booking b
-            WHERE b.booker.id = ?1
+            WHERE b.booker.id = :userId
             AND b.status = 'REJECTED'
             ORDER BY b.start DESC""")
-    List<Booking> getRejectedUserBookings(long userId);
+    List<Booking> getRejectedUserBookings(@Param("userId") long userId);
 
 
     @Query("""
             SELECT b
             FROM Booking b
-            WHERE b.item.id = ?1
+            WHERE b.item.id = :itemId
             ORDER BY b.start DESC""")
-    List<Booking> getAllItemBookings(long itemId);
+    List<Booking> getAllItemBookings(@Param("itemId") long itemId);
 
     @Query("""
             SELECT b
             FROM Booking b
-            WHERE b.item.id = ?1
+            WHERE b.item.id = :itemId
             AND b.status = 'APPROVED'
-            AND ?2 >= b.start AND ?2 <= b.end
+            AND :localDateTime >= b.start AND :localDateTime <= b.end
             ORDER BY b.start DESC""")
-    List<Booking> getCurrentItemBookings(long itemId, LocalDateTime localDateTime);
+    List<Booking> getCurrentItemBookings(@Param("itemId") long itemId,
+                                         @Param("localDateTime") LocalDateTime localDateTime);
 
     @Query("""
             SELECT b
             FROM Booking b
-            WHERE b.item.id = ?1
+            WHERE b.item.id = :itemId
             AND b.status = 'APPROVED'
-            AND ?2 < b.start
+            AND :localDateTime < b.start
             ORDER BY b.start DESC""")
-    List<Booking> getFutureItemBookings(long itemId, LocalDateTime localDateTime);
+    List<Booking> getFutureItemBookings(@Param("itemId") long itemId,
+                                        @Param("localDateTime") LocalDateTime localDateTime);
 
     @Query("""
             SELECT b
             FROM Booking b
-            WHERE b.item.id = ?1
+            WHERE b.item.id = :itemId
             AND b.status = 'APPROVED'
-            AND ?2 > b.end
+            AND :localDateTime > b.end
             ORDER BY b.start DESC""")
-    List<Booking> getPastItemBookings(long itemId, LocalDateTime localDateTime);
+    List<Booking> getPastItemBookings(@Param("itemId") long itemId,
+                                      @Param("localDateTime") LocalDateTime localDateTime);
 
     @Query("""
             SELECT b
             FROM Booking b
-            WHERE b.item.id = ?1
+            WHERE b.item.id = :itemId
             AND b.status = 'WAITING'
             ORDER BY b.start DESC""")
-    List<Booking> getWaitingItemBookings(long itemId);
+    List<Booking> getWaitingItemBookings(@Param("itemId") long itemId);
 
     @Query("""
             SELECT b
             FROM Booking b
-            WHERE b.item.id = ?1
+            WHERE b.item.id = :itemId
             AND b.status = 'REJECTED'
             ORDER BY b.start DESC""")
-    List<Booking> getRejectedItemBookings(long itemId);
+    List<Booking> getRejectedItemBookings(@Param("itemId") long itemId);
 }
 

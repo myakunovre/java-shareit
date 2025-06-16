@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class CommentInputDto {
     private Long id;
-
     @NotEmpty
     private String text;
 }
