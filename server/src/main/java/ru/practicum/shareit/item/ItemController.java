@@ -15,23 +15,23 @@ import java.util.List;
 public class ItemController {
 
     private final ItemService itemService;
-    private final String X_SHARER_USER_ID_HEADER = "X-Sharer-User-Id";
+    private final String xSharerUserIdHeader = "X-Sharer-User-Id";
 
     @PostMapping
-    public ItemDto addItem(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId,
+    public ItemDto addItem(@RequestHeader(xSharerUserIdHeader) Long userId,
                            @RequestBody ItemDto itemDto) {
         return itemService.addNewItem(userId, itemDto);
     }
 
     @PostMapping("/{itemId}/comment")
-    public CommentDto addItemComment(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId,
+    public CommentDto addItemComment(@RequestHeader(xSharerUserIdHeader) Long userId,
                                      @RequestBody CommentInputDto commentInputDto,
                                      @PathVariable long itemId) {
         return itemService.addNewItemComment(userId, itemId, commentInputDto);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto updateItem(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId,
+    public ItemDto updateItem(@RequestHeader(xSharerUserIdHeader) Long userId,
                               @RequestBody ItemDto itemDto,
                               @PathVariable long itemId) {
         return itemService.updateItem(userId, itemId, itemDto);
@@ -39,12 +39,12 @@ public class ItemController {
 
     @GetMapping("/{itemId}")
     public ItemOwnerDto getItem(@PathVariable long itemId,
-                                @RequestHeader(X_SHARER_USER_ID_HEADER) Long userId) {
+                                @RequestHeader(xSharerUserIdHeader) Long userId) {
         return itemService.getItem(itemId, userId);
     }
 
     @GetMapping
-    public List<ItemOwnerDto> getAllItems(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId) {
+    public List<ItemOwnerDto> getAllItems(@RequestHeader(xSharerUserIdHeader) Long userId) {
         return itemService.getAllItems(userId);
     }
 

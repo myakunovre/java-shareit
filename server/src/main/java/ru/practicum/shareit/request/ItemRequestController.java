@@ -15,24 +15,24 @@ import java.util.List;
 @Slf4j
 public class ItemRequestController {
     private final ItemRequestService requestService;
-    private final String X_SHARER_USER_ID_HEADER = "X-Sharer-User-Id";
+    private final String xSharerUserIdHeader = "X-Sharer-User-Id";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ItemRequestDto createRequest(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId,
+    public ItemRequestDto createRequest(@RequestHeader(xSharerUserIdHeader) Long userId,
                                         @RequestBody ItemRequestDto request) {
         return requestService.createItemRequest(userId, request);
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<ItemRequestDto> getUserItemRequests(@RequestHeader(X_SHARER_USER_ID_HEADER) long userId) {
+    public List<ItemRequestDto> getUserItemRequests(@RequestHeader(xSharerUserIdHeader) long userId) {
         return requestService.getUserItemRequests(userId);
     }
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
-    public List<ItemRequestDto> getAllItemRequests(@RequestHeader(X_SHARER_USER_ID_HEADER) long userId) {
+    public List<ItemRequestDto> getAllItemRequests(@RequestHeader(xSharerUserIdHeader) long userId) {
         return requestService.getAllItemRequests(userId);
     }
 

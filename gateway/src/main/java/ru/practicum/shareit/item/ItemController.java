@@ -14,18 +14,18 @@ import ru.practicum.shareit.item.dto.ItemDto;
 public class ItemController {
 
     private final ItemClient itemClient;
-    private final String X_SHARER_USER_ID_HEADER = "X-Sharer-User-Id";
+    private final String xSharerUserIdHeader = "X-Sharer-User-Id";
 
 
     @PostMapping
-    public ResponseEntity<Object> addItem(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId,
+    public ResponseEntity<Object> addItem(@RequestHeader(xSharerUserIdHeader) Long userId,
                                           @Valid @RequestBody ItemDto itemDto) {
         return itemClient.addNewItem(userId, itemDto);
     }
 
     @PostMapping("/{itemId}/comment")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> addItemComment(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId,
+    public ResponseEntity<Object> addItemComment(@RequestHeader(xSharerUserIdHeader) Long userId,
                                                  @Valid @RequestBody CommentInputDto commentInputDto,
                                                  @PathVariable Long itemId) {
         return itemClient.addNewItemComment(userId, itemId, commentInputDto);
@@ -33,7 +33,7 @@ public class ItemController {
 
 
     @PatchMapping("/{itemId}")
-    public ResponseEntity<Object> updateItem(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId,
+    public ResponseEntity<Object> updateItem(@RequestHeader(xSharerUserIdHeader) Long userId,
                                              @Valid @RequestBody ItemDto itemDto,
                                              @PathVariable Long itemId) {
         return itemClient.updateItem(userId, itemId, itemDto);
@@ -42,13 +42,13 @@ public class ItemController {
 
     @GetMapping("/{itemId}")
     public ResponseEntity<Object> getItem(@PathVariable long itemId,
-                                          @RequestHeader(X_SHARER_USER_ID_HEADER) Long userId) {
+                                          @RequestHeader(xSharerUserIdHeader) Long userId) {
         return itemClient.getItem(itemId, userId);
     }
 
 
     @GetMapping
-    public ResponseEntity<Object> getAllItems(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId) {
+    public ResponseEntity<Object> getAllItems(@RequestHeader(xSharerUserIdHeader) Long userId) {
         return itemClient.getAllItems(userId);
     }
 

@@ -15,11 +15,11 @@ import ru.practicum.shareit.request.dto.ItemRequestDto;
 @Slf4j
 public class ItemRequestController {
     private final ItemRequestClient requestClient;
-    private final String X_SHARER_USER_ID_HEADER = "X-Sharer-User-Id";
+    private final String xSharerUserIdHeader = "X-Sharer-User-Id";
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> createRequest(@RequestHeader(X_SHARER_USER_ID_HEADER) Long userId,
+    public ResponseEntity<Object> createRequest(@RequestHeader(xSharerUserIdHeader) Long userId,
                                                 @Valid @RequestBody ItemRequestDto request) {
         return requestClient.addNewItemRequest(userId, request);
     }
@@ -27,14 +27,14 @@ public class ItemRequestController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Object> getUserItemRequests(
-            @RequestHeader(X_SHARER_USER_ID_HEADER) long userId) {
+            @RequestHeader(xSharerUserIdHeader) long userId) {
         return requestClient.getUserItemRequests(userId);
     }
 
     @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<Object> getAllItemRequests(
-            @RequestHeader(X_SHARER_USER_ID_HEADER) long userId) {
+            @RequestHeader(xSharerUserIdHeader) long userId) {
         return requestClient.getAllItemRequests(userId);
     }
 

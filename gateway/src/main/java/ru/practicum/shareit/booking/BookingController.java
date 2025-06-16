@@ -13,16 +13,16 @@ import ru.practicum.shareit.booking.dto.BookingDtoInput;
 public class BookingController {
 
     private final BookingClient bookingClient;
-    private final String X_SHARER_USER_ID_HEADER = "X-Sharer-User-Id";
+    private final String xSharerUserIdHeader = "X-Sharer-User-Id";
 
     @PostMapping
-    public ResponseEntity<Object> addBooking(@RequestHeader(X_SHARER_USER_ID_HEADER) long userId,
+    public ResponseEntity<Object> addBooking(@RequestHeader(xSharerUserIdHeader) long userId,
                                              @Valid @RequestBody BookingDtoInput bookingDtoInput) {
         return bookingClient.addNewBooking(userId, bookingDtoInput);
     }
 
     @PatchMapping("/{bookingId}")
-    public ResponseEntity<Object> updateBooking(@RequestHeader(X_SHARER_USER_ID_HEADER) long userId,
+    public ResponseEntity<Object> updateBooking(@RequestHeader(xSharerUserIdHeader) long userId,
                                                 @PathVariable long bookingId,
                                                 @RequestParam Boolean approved) {
         return bookingClient.updateBooking(userId, bookingId, approved);
@@ -30,21 +30,21 @@ public class BookingController {
 
     @GetMapping("/{bookingId}")
     public ResponseEntity<Object> getBooking(
-            @RequestHeader(X_SHARER_USER_ID_HEADER) long userId,
+            @RequestHeader(xSharerUserIdHeader) long userId,
             @PathVariable long bookingId) {
         return bookingClient.getBooking(userId, bookingId);
     }
 
     @GetMapping
     public ResponseEntity<Object> getUserBookings(
-            @RequestHeader(X_SHARER_USER_ID_HEADER) long userId,
+            @RequestHeader(xSharerUserIdHeader) long userId,
             @RequestParam(value = "state", defaultValue = "ALL") BookingState state) {
         return bookingClient.getUserBookings(userId, state);
     }
 
     @GetMapping("/owner")
     public ResponseEntity<Object> getItemBookings(
-            @RequestHeader(X_SHARER_USER_ID_HEADER) long userId,
+            @RequestHeader(xSharerUserIdHeader) long userId,
             @RequestParam(value = "state", defaultValue = "ALL") BookingState state) {
         return bookingClient.getItemBookings(userId, state);
     }
