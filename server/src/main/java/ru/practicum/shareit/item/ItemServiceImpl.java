@@ -188,19 +188,16 @@ class ItemServiceImpl implements ItemService {
         LocalDateTime now = LocalDateTime.now();
 
         List<Long> bookerIds = bookings.stream()
-                .filter(booking -> booking.getStatus().equals(BookingStatus.APPROVED))
+//                .filter(booking -> booking.getStatus().equals(BookingStatus.APPROVED))
                 .filter(booking -> booking.getEnd().isBefore(now))
                 .map(booking -> booking.getBooker().getId())
                 .toList();
 
         if (bookerIds.contains(userId)) {
             Comment comment = CommentMapper.toComment(commentInputDto, item, user, now);
-
             Comment savedComment = commentRepository.save(comment);
-
             return CommentMapper.toCommentDto(savedComment);
         }
-
         throw new BadRequestException("User id = " + userId + "was not the booker of the item id = " + itemId);
     }
 }
