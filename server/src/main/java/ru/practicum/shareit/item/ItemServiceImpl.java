@@ -18,6 +18,7 @@ import ru.practicum.shareit.user.User;
 import ru.practicum.shareit.user.UserRepository;
 
 import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -185,11 +186,11 @@ class ItemServiceImpl implements ItemService {
 
         List<Booking> bookings = bookingRepository.getAllItemBookings(itemId);
 
-        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 
         List<Long> bookerIds = bookings.stream()
                 .filter(booking -> booking.getStatus().equals(BookingStatus.APPROVED))
-                .filter(booking -> booking.getEnd().isBefore(now))
+                .filter(booking -> booking.getEnd().truncatedTo(ChronoUnit.SECONDS).isBefore(now))
                 .map(booking -> booking.getBooker().getId())
                 .toList();
 
