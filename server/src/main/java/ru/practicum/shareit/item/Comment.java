@@ -18,7 +18,7 @@ public class Comment {
     private Long id;
 
     @Column(nullable = false)
-    @JoinColumn(name = "content")
+//    @JoinColumn(name = "content")
     private String text;
 
     @ManyToOne(fetch = FetchType.LAZY)
