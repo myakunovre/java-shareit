@@ -185,6 +185,7 @@ class ItemServiceImpl implements ItemService {
                 .orElseThrow(() -> new NotFoundException("Item not found"));
 
         List<Booking> bookings = bookingRepository.getAllItemBookings(itemId);
+//        List<Booking> bookings = bookingRepository.findBookingsByItemIdAndUserId(itemId, );
 
         LocalDateTime now = LocalDateTime.now().truncatedTo(ChronoUnit.SECONDS);
 

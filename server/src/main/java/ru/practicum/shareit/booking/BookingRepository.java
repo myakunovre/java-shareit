@@ -70,7 +70,8 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
             FROM Booking b
             WHERE b.item.id = :itemId
             ORDER BY b.start DESC""")
-    List<Booking> getAllItemBookings(@Param("itemId") long itemId);
+    List<Booking> getAllItemBookings(@Param("itemId") Long itemId);
+
 
     @Query("""
             SELECT b
